@@ -8,7 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const convertedvalue = currentvalue
             .replace("×", "*")
             .replace(" ÷", "/")
-            .replace('%', '*0.01');
+            .replace('%', '*0.01')
+            .replace('sin', 'math.sin')
+            .replace('cos', 'math.cos')
+            .replace('ln', 'math.log')
+            .replace('π', 'math.PI')
+            .replace('log', 'math.log10')
+            .replace('e', 'math.E')
+            .replace('tan', 'math.tan')
+            .replace('√', 'math.sqrt');
         console.log('convertedvalue:', convertedvalue)
         const result = eval(currentedvalue);
         currentvalue = result.toString();
@@ -18,16 +26,22 @@ document.addEventListener("DOMContentLoaded", function () {
         const button = buttons[i];
         button.addEventListener('click', function () {
             const value = button.innerText;
-            if (value == "Ac") {
-                currentvalue = "";
-                display.value = currentvalue;
-            } else if (value == "=") {
-                evaluateResult();
+            try {
+                if (value == "Ac") {
+                    currentvalue = "";
+                    display.value = currentvalue;
+
+                } else if (value == "=") {
+                    evaluateResult();
+                }
+                else {
+                    currentvalue += value;
+                    display.value = currentvalue;
+                }
+            } catch (error) {
+                console.error(error);
+                currentvalue = "ERROR"
+                display.value = currentvalue
             }
-            else {
-                currentvalue += value;
-                display.value = currentvalue;
-            }
+
         })
-    }
-})
